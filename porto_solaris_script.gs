@@ -1,21 +1,20 @@
 /**
  * Porto Solaris: Criando uma automação para formatar dados do Google Sheets e enviar ao Storage/E-mail com Apps Script
+ * requirements: OAuth2 --- id: 1B7FSrk5Zi6L1rSxxTDgDEUsPzlukDsi4KGuTMorsTQHhGBzBkMun4iDF
  * Criado por: stefanikaline15@gmail.com
  */
 
+// Função para gerar um token de acesso para o projeto GCP
 function getToken(){
-  /**
-   * Function to generate an access token for the GCP project.
-   * 
-   * :return acessToken: Access token for the GCP project
-   */
+
   try {
     
     const SERVICE_ACCOUNT = {
       private_key: "<CHAVE DA SERVICE ACCOUNT>",
       client_email: '<SERVICE ACCOUNT>'
     };
-    // Create a new service with credentials
+
+    // Cria um novo serviço com as credenciais
     const GET_STORAGE_SERVICE = () =>
       OAuth2.createService('FirestoreStorage')
         .setPrivateKey(SERVICE_ACCOUNT.private_key)
@@ -28,7 +27,7 @@ function getToken(){
     var service = GET_STORAGE_SERVICE();
     var accessToken = service.getAccessToken();
 
-      //return accessToken;
+      //returna accessToken;
       return JSON.stringify(accessToken);
     } catch (err) {
       console.log('Failed with error %s', err.message);
@@ -108,7 +107,7 @@ function main() {
 
     var gcsDataJson = JSON.stringify(newDict, null, 2)
 
-    //Send the data to GCS
+    //Envia os dados para o GCS
     var options = {
       method: 'POST',
       headers: {
@@ -122,8 +121,6 @@ function main() {
 
       Logger.log('Resposta: ' + response.getContentText());
     
-
-  
     sheet.deleteRows(2,data.length-1);
 
   }
